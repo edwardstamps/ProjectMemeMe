@@ -82,7 +82,7 @@
                                 <rect key="frame" x="83" y="15" width="421" height="44"/>
                                 <items>
                                     <navigationItem title="Title" id="TLv-y0-5yH">
-                                        <barButtonItem key="leftBarButtonItem" title="Save" id="9eg-Rp-6rX">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="9eg-Rp-6rX">
                                             <connections>
                                                 <action selector="shareImage:" destination="vXZ-lx-hvc" id="Uua-2o-2k8"/>
                                             </connections>

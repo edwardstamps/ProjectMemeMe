@@ -14,6 +14,8 @@
 		<string>https://github.com/edwardstamps/iOS-apps.git</string>
 		<key>53525AA958F05E66DB4DBFE3CF291C216AF50F4A</key>
 		<string>https://github.com/edwardstamps/ProjectMeme.git</string>
+		<key>F9F5FC1CEB43A01E1DB08C124628861C80E9FC8A</key>
+		<string>https://github.com/edwardstamps/ProjectMemeMe.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Memer.xcodeproj</string>
@@ -22,14 +24,16 @@
 		<key>30EF315DB55ECAA76BC41F02125621F3FC0D8B51</key>
 		<string>../../..</string>
 		<key>53525AA958F05E66DB4DBFE3CF291C216AF50F4A</key>
+		<string>../../../ProjectMeme</string>
+		<key>F9F5FC1CEB43A01E1DB08C124628861C80E9FC8A</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/edwardstamps/ProjectMeme.git</string>
+	<string>https://github.com/edwardstamps/ProjectMemeMe.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>53525AA958F05E66DB4DBFE3CF291C216AF50F4A</string>
+	<string>F9F5FC1CEB43A01E1DB08C124628861C80E9FC8A</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -47,6 +51,14 @@
 			<string>53525AA958F05E66DB4DBFE3CF291C216AF50F4A</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ProjectMeme</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F9F5FC1CEB43A01E1DB08C124628861C80E9FC8A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ProjectMemeMe</string>
 		</dict>
 	</array>
 </dict>

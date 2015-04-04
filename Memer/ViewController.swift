@@ -136,7 +136,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        println("GAy")
+        
         dismissViewControllerAnimated(true, completion: nil)
     }
     
