@@ -27,7 +27,8 @@ class TableViewController: UIViewController, UITableViewDataSource {
     
     
    }
-    
+    //this function determines whether to launch on the table or editor page
+
     func showEditor(){
         if memes.count == 0 {
             let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("ViewController")! as UIViewController

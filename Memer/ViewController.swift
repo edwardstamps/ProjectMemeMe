@@ -177,7 +177,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         return true;
     }
-   
+   //by placing the subscribetokeyboard notifications here we have an easy way to ensure the keyboard only moves when the bottom text is being edited 
+    
     func textFieldDidBeginEditing(textField: UITextField!) {
         if topText.text == "TOP" {
             topText.text = ""}
