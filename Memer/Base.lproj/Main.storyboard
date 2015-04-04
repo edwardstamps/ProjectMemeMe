@@ -129,6 +129,7 @@
                     <connections>
                         <outlet property="bottomText" destination="xaC-2R-n6k" id="g03-LK-LBx"/>
                         <outlet property="cameraButton" destination="sHK-BV-tiL" id="aNA-d8-s6Z"/>
+                        <outlet property="cancelEnabler" destination="ih2-L7-ek7" id="cSM-ou-enC"/>
                         <outlet property="imagePickerView" destination="AyB-o2-Xab" id="pae-4o-103"/>
                         <outlet property="navBar" destination="LQd-TD-4A0" id="q8w-P4-1c9"/>
                         <outlet property="shareButton" destination="9eg-Rp-6rX" id="kF6-5g-jbt"/>

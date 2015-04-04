@@ -51,6 +51,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bottomText.defaultTextAttributes = memeTextAttributes
       
         shareButton.enabled = false
+        
+        self.cancelEnable()
+        
        
        
        
@@ -97,6 +100,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
+    @IBOutlet weak var cancelEnabler: UIBarButtonItem!
     
     @IBAction func shareImage(sender: AnyObject) {
         var doneMeme=generateMemedImage()
@@ -112,6 +116,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         
     }
+    
+    
     
     func activityCompletionHandler(activity: String!, completion: Bool, returnedItem: [AnyObject]!, activityError: NSError!){
         
@@ -253,7 +259,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let appDelegate = object as AppDelegate
         appDelegate.memes.append(meme)
         
+        
    }
+    
+    func cancelEnable(){
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as AppDelegate
+        
+        if appDelegate.memes.count == 0 {
+            cancelEnabler.enabled = false
+        }
+        
+        else {
+            cancelEnabler.enabled = true
+        }
+    }
     
    
     
