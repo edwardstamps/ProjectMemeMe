@@ -9,6 +9,15 @@
 import Foundation
 import UIKit
 
+let BASE_URL = "https://api.flickr.com/services/rest/"
+let METHOD_NAME = "flickr.photos.search"
+let API_KEY = "08f89a20636b58be8c6b7b2c3bd4555c"
+let EXTRAS = "url_m"
+let SAFE_SEARCH = "1"
+let DATA_FORMAT = "json"
+let NO_JSON_CALLBACK = "1"
+let StaticMeme = ["cute animal", "puppy", "holiday fail", "kitten","fail", "Game of Thrones"]
+
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     
@@ -41,11 +50,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         topText.delegate = self
         bottomText.delegate = self
+        topText.hidden = true
         
         topText.text = "TOP"
         topText.textAlignment = .Center
         topText.defaultTextAttributes = memeTextAttributes
-        
+        bottomText.hidden = true
         bottomText.text = "BOTTOM"
         bottomText.textAlignment = .Center
         bottomText.defaultTextAttributes = memeTextAttributes
@@ -93,6 +103,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
      
         picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         presentViewController(picker, animated: true, completion: nil)
+       
         
         
         
@@ -150,10 +161,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         didFinishPickingMediaWithInfo info:[NSObject : AnyObject]) {
             var chosenImage = info[UIImagePickerControllerOriginalImage] as? UIImage
             
-           
+            
             imagePickerView.image = chosenImage
             dismissViewControllerAnimated(true, completion: nil)
             shareButton.enabled = true
+            topText.hidden = false
+            bottomText.hidden = false
+            
             
     }
     
@@ -166,10 +180,31 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         presentViewController(picker, animated: true, completion: nil)
         
-       
         
+       }
+    
+    
+    @IBAction func pickFlick(sender: AnyObject) {
+        let methodArguments = [
+            "method": METHOD_NAME,
+            "api_key": API_KEY,
+            "text": StaticMeme[Int(arc4random_uniform(UInt32(StaticMeme.count)))],
+            "safe_search": SAFE_SEARCH,
+            "extras": EXTRAS,
+            "format": DATA_FORMAT,
+            "nojsoncallback": NO_JSON_CALLBACK
+        ]
+        /* 2 - Call the Flickr API with these arguments */
+        getImageFromFlickrBySearch(methodArguments)
+        topText.hidden = false
+        bottomText.hidden = false
+        shareButton.enabled = true
         
     }
+    
+    
+    
+    
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool // called when 'return' key pressed. return NO to ignore.
     {
@@ -273,10 +308,94 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         else {
             cancelEnabler.enabled = true
         }
+        
+        
+        //flickerfunctions
+        
     }
-    
-   
-    
+        
+        func getImageFromFlickrBySearch(methodArguments: [String : AnyObject]) {
+            
+            let session = NSURLSession.sharedSession()
+            let urlString = BASE_URL + escapedParameters(methodArguments)
+            let url = NSURL(string: urlString)!
+            let request = NSURLRequest(URL: url)
+            
+            let task = session.dataTaskWithRequest(request) {data, response, downloadError in
+                if let error = downloadError? {
+                    println("Could not complete the request \(error)")
+                } else {
+                    var parsingError: NSError? = nil
+                    let parsedResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as NSDictionary
+                    
+                    if let photosDictionary = parsedResult.valueForKey("photos") as? [String:AnyObject] {
+                        
+                        var totalPhotosVal = 0
+                        if let totalPhotos = photosDictionary["total"] as? String {
+                            totalPhotosVal = (totalPhotos as NSString).integerValue
+                        }
+                        
+                        if totalPhotosVal > 0 {
+                            if let photosArray = photosDictionary["photo"] as? [[String: AnyObject]] {
+                                
+                                let randomPhotoIndex = Int(arc4random_uniform(UInt32(photosArray.count)))
+                                let photoDictionary = photosArray[randomPhotoIndex] as [String: AnyObject]
+                                
+                                let photoTitle = photoDictionary["title"] as? String
+                                let imageUrlString = photoDictionary["url_m"] as? String
+                                let imageURL = NSURL(string: imageUrlString!)
+                                
+                                if let imageData = NSData(contentsOfURL: imageURL!) {
+                                    dispatch_async(dispatch_get_main_queue(), {
+                                      //  self.defaultLabel.alpha = 0.0
+                                        self.imagePickerView.image = UIImage(data: imageData)
+                                        
+                                      //  self.photoTitleLabel.text = "\(photoTitle!)"
+                                    })
+                                } else {
+                                    println("Image does not exist at \(imageURL)")
+                                }
+                            } else {
+                                println("Cant find key 'photo' in \(photosDictionary)")
+                            }
+                        } else {
+                            dispatch_async(dispatch_get_main_queue(), {
+                               // self.photoTitleLabel.text = "No Photos Found. Search Again."
+                             //   self.defaultLabel.alpha = 1.0
+                                self.imagePickerView.image = nil
+                            })
+                        }
+                    } else {
+                        println("Cant find key 'photos' in \(parsedResult)")
+                    }
+                }
+            }
+            
+            task.resume()
+        }
+        
+        /* Helper function: Given a dictionary of parameters, convert to a string for a url */
+        func escapedParameters(parameters: [String : AnyObject]) -> String {
+            
+            var urlVars = [String]()
+            
+            for (key, value) in parameters {
+                
+                /* Make sure that it is a string value */
+                let stringValue = "\(value)"
+                
+                /* Escape it */
+                let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+                
+                /* FIX: Replace spaces with '+' */
+                let replaceSpaceValue = stringValue.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                
+                /* Append it */
+                urlVars += [key + "=" + "\(replaceSpaceValue)"]
+            }
+            
+            return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
+        }
 
 }
 

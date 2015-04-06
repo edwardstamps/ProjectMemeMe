@@ -68,6 +68,12 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="NJH-Vf-K6x"/>
+                                    <barButtonItem title="Feeling Lucky?" id="Q7y-NM-3fb">
+                                        <connections>
+                                            <action selector="pickFlick:" destination="vXZ-lx-hvc" id="2jB-8f-yyD"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="YaR-o0-j6u"/>
                                     <barButtonItem title="Camera" id="sHK-BV-tiL">
                                         <connections>
                                             <action selector="shootPhoto:" destination="vXZ-lx-hvc" id="OMP-83-arO"/>
