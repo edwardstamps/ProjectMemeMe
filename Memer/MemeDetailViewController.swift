@@ -18,7 +18,8 @@ class DetailViewController: UIViewController {
     
     
     override func viewDidLoad() {
-        self.memePic!.image = meme.memedImage
+        let image = UIImage(data: meme.memedImage)
+        self.memePic!.image = image
     }
     
     

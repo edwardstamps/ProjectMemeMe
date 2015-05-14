@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 let BASE_URL = "https://api.flickr.com/services/rest/"
 let METHOD_NAME = "flickr.photos.search"
@@ -19,6 +20,8 @@ let NO_JSON_CALLBACK = "1"
 let StaticMeme = ["cute animal", "puppy", "holiday fail", "kitten","fail", "Game of Thrones"]
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+    
+     var memes = [Meme]()
 
     
     @IBOutlet weak var imagePickerView: UIImageView!
@@ -39,6 +42,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var topText: UITextField!
     
     @IBOutlet weak var bottomText: UITextField!
+    
+//    lazy var sharedContext = {
+//        CoreDataStackManager.sharedInstance().managedObjectContext!
+//        }()
+//    
+//    var temporaryContext: NSManagedObjectContext!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,9 +72,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         shareButton.enabled = false
         
         self.cancelEnable()
-        
-       
-       
+//        let sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext!
+//
+//        // Set the temporary context
+//        temporaryContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
+//        temporaryContext.persistentStoreCoordinator = sharedContext.persistentStoreCoordinator
+//       
        
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -80,6 +92,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.unsubscribeFromKeyboardNotifications()
+    }
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext!
     }
     
     let memeTextAttributes = [
@@ -133,10 +149,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func activityCompletionHandler(activity: String!, completion: Bool, returnedItem: [AnyObject]!, activityError: NSError!){
         
         if completion == true {
-            save()
+            self.save()
             
             dismissViewControllerAnimated(true, completion: nil)
-        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarViewController")! as UIViewController
+        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarViewController")! as! UIViewController
        
         self.navigationController!.pushViewController(detailController, animated: true)
             }
@@ -243,7 +259,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as NSValue // of CGRect
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue // of CGRect
         return keyboardSize.CGRectValue().height
     }
     
@@ -286,22 +302,57 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func save() {
         //Create the meme
+        
         var memedImage=generateMemedImage()
-        var meme = Meme(topText: topText.text!, bottomText: bottomText.text!, image: imagePickerView.image, memedImage: memedImage)
+        println("lets get it")
+        
+        var imageData: NSData = UIImagePNGRepresentation(memedImage)
         
         
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as AppDelegate
-        appDelegate.memes.append(meme)
+//        var meme = Meme(topText: topText.text!, bottomText: bottomText.text!, image: imagePickerView.image, memedImage: memedImage)
+        
+//        
+//        let object = UIApplication.sharedApplication().delegate
+//        let appDelegate = object as! AppDelegate
+//        appDelegate.memes.append(meme)
+       
+        
+      let MemeToBeAdded = Meme(context: sharedContext)
+        
+//        let menuEntry = NSEntityDescription.insertNewObjectForEntityForName("Meme", inManagedObjectContext: sharedContext) as Meme
+
+        
+      
+        MemeToBeAdded.topText = topText.text
+       MemeToBeAdded.memedImage = imageData
+        
+        self.memes.append(MemeToBeAdded)
+        
+        println("win")
+        
+//        menuEntry.menuText = menuText
+//        menuEntry.createdAt = NSDate()
+        
+        
+        
+        // Finally we save the shared context, using the convenience method in
+        // The CoreDataStackManager
+        CoreDataStackManager.sharedInstance().saveContext()
+//        var memeArrayURL: NSURL {
+//            let filename = "memeArray"
+//            let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first as! NSURL
+//            
+//            return documentsDirectoryURL.URLByAppendingPathComponent(filename)
+//        }
         
         
    }
     
     func cancelEnable(){
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as AppDelegate
+//        let object = UIApplication.sharedApplication().delegate
+//        let appDelegate = object as! AppDelegate
         
-        if appDelegate.memes.count == 0 {
+        if memes.count == 0 {
             cancelEnabler.enabled = false
         }
         
@@ -322,11 +373,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let request = NSURLRequest(URL: url)
             
             let task = session.dataTaskWithRequest(request) {data, response, downloadError in
-                if let error = downloadError? {
+                if let error = downloadError {
                     println("Could not complete the request \(error)")
                 } else {
                     var parsingError: NSError? = nil
-                    let parsedResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as NSDictionary
+                    let parsedResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
                     
                     if let photosDictionary = parsedResult.valueForKey("photos") as? [String:AnyObject] {
                         

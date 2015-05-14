@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="iJx-fu-5Iv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="iJx-fu-5Iv">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -84,10 +84,11 @@
                             <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AyB-o2-Xab">
                                 <rect key="frame" x="91" y="134" width="404" height="295"/>
                             </imageView>
-                            <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LQd-TD-4A0">
-                                <rect key="frame" x="83" y="15" width="421" height="44"/>
+                            <navigationBar contentMode="scaleToFill" misplaced="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQd-TD-4A0">
+                                <rect key="frame" x="0.0" y="15" width="421" height="44"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <navigationItem title="Title" id="TLv-y0-5yH">
+                                    <navigationItem title="Make a Meme" id="TLv-y0-5yH">
                                         <barButtonItem key="leftBarButtonItem" systemItem="action" id="9eg-Rp-6rX">
                                             <connections>
                                                 <action selector="shareImage:" destination="vXZ-lx-hvc" id="Uua-2o-2k8"/>
@@ -118,7 +119,7 @@
                             <constraint firstItem="AyB-o2-Xab" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="DfG-ET-gTU"/>
                             <constraint firstItem="Pul-ey-UG5" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="I9R-t2-JHS"/>
                             <constraint firstAttribute="centerX" secondItem="xaC-2R-n6k" secondAttribute="centerX" id="Jje-es-3g5"/>
-                            <constraint firstItem="LQd-TD-4A0" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="Jzm-PV-s6V"/>
+                            <constraint firstItem="LQd-TD-4A0" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" constant="16" id="Jzm-PV-s6V"/>
                             <constraint firstItem="kfJ-Ho-CKU" firstAttribute="top" secondItem="LQd-TD-4A0" secondAttribute="bottom" constant="30" id="Ko1-Fn-gcD"/>
                             <constraint firstItem="Pul-ey-UG5" firstAttribute="bottom" secondItem="AyB-o2-Xab" secondAttribute="bottom" constant="50" id="OSs-hL-ouw"/>
                             <constraint firstItem="Pul-ey-UG5" firstAttribute="top" secondItem="xaC-2R-n6k" secondAttribute="bottom" constant="30" id="W6r-5d-gmH"/>
@@ -186,8 +187,8 @@
                                     <outlet property="delegate" destination="KXg-cu-s7U" id="qOM-E4-ISu"/>
                                 </connections>
                             </tableView>
-                            <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="har-aL-gZZ">
-                                <rect key="frame" x="-16" y="0.0" width="600" height="44"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="har-aL-gZZ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Sent Memes" id="O1P-wq-mR5">
                                         <barButtonItem key="rightBarButtonItem" title="Item" systemItem="add" id="E5q-xE-C9X">
@@ -302,7 +303,7 @@
                                 </connections>
                             </collectionView>
                             <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ACC-Th-LFb">
-                                <rect key="frame" x="16" y="0.0" width="548" height="44"/>
+                                <rect key="frame" x="8" y="20" width="548" height="44"/>
                                 <items>
                                     <navigationItem title="Sent Memes" id="lSU-Zf-yXp">
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="7S3-ys-I4E">
@@ -345,10 +346,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hgs-QA-yxs">
-                                <rect key="frame" x="0.0" y="94" width="600" height="456"/>
+                                <rect key="frame" x="0.0" y="110" width="600" height="440"/>
                             </imageView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jrE-Vl-qPt">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="16" width="600" height="44"/>
                                 <items>
                                     <navigationItem id="UMO-p0-eu2">
                                         <barButtonItem key="leftBarButtonItem" title="&lt; Sent Memes" id="OGD-NE-wtw">
@@ -362,7 +363,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jrE-Vl-qPt" firstAttribute="top" secondItem="XfG-yx-cvO" secondAttribute="topMargin" id="4Oo-Qf-7c0"/>
+                            <constraint firstItem="jrE-Vl-qPt" firstAttribute="top" secondItem="XfG-yx-cvO" secondAttribute="topMargin" constant="16" id="4Oo-Qf-7c0"/>
                             <constraint firstItem="hgs-QA-yxs" firstAttribute="top" secondItem="jrE-Vl-qPt" secondAttribute="bottom" constant="50" id="617-gC-HUJ"/>
                             <constraint firstItem="Ifu-Zk-X6E" firstAttribute="top" secondItem="hgs-QA-yxs" secondAttribute="bottom" constant="50" id="JrQ-sM-Woq"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jrE-Vl-qPt" secondAttribute="trailing" constant="-16" id="Sv4-1u-Dcb"/>
